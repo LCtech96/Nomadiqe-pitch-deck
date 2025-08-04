@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomadiqe - Investor Deck</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for the pie chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Stile di base e font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* Grigio chiaro */
+        }
+        
+        /* Stile per le slide */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+        
+        /* Animazione di fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Colori personalizzati del brand */
+        .brand-purple { color: #6d28d9; }
+        .bg-brand-purple { background-color: #6d28d9; }
+        .border-brand-purple { border-color: #6d28d9; }
+        
+        /* Stile per i titoli delle slide */
+        .slide-title {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            line-height: 1.2;
+            color: #1e293b; /* Grigio scuro */
+        }
+        
+        @media (min-width: 768px) {
+            .slide-title {
+                font-size: 3rem; /* 48px */
+            }
+        }
+
+        /* Stile per le card */
+        .feature-card {
+            background-color: white;
+            border-radius: 1rem; /* 16px */
+            padding: 2rem; /* 32px */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Stile per i pulsanti di navigazione */
+        .nav-button {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e2e8f0;
+            border-radius: 9999px;
+            padding: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Stile per i puntini di navigazione */
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #cbd5e1; /* Grigio */
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-dot.active {
+            background-color: #6d28d9; /* Viola */
+            transform: scale(1.25);
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <div id="presentation-container" class="relative w-full overflow-hidden">
+
+        <!-- Slide 1: Titolo -->
+        <div id="slide-1" class="slide active flex-col justify-center items-center text-center p-8 bg-white">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-6 text-5xl md:text-7xl font-bold brand-purple">Nomadiqe</div>
+                <h1 class="text-2xl md:text-4xl font-semibold text-slate-700">Ridefiniamo il modo in cui viaggi, paghi e ti connetti.</h1>
+            </div>
+        </div>
+
+        <!-- Slide 2: Il Problema -->
+        <div id="slide-2" class="slide flex-col justify-center items-center p-8">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="slide-title mb-12">Il mercato dei viaggi è rotto.</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Problema 1: Commissioni Elevate -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-red-100 rounded-full">
+                            <i data-lucide="trending-down" class="w-8 h-8 text-red-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Commissioni Elevate</h3>
+                        <p class="text-slate-600">Piattaforme come Airbnb e Booking.com addebitano commissioni fino al 15-20%, erodendo i profitti degli host e aumentando i costi per i viaggiatori.</p>
+                    </div>
+                    <!-- Problema 2: Frizione nei Pagamenti -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-yellow-100 rounded-full">
+                            <i data-lucide="hourglass" class="w-8 h-8 text-yellow-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Frizione nei Pagamenti</h3>
+                        <p class="text-slate-600">I pagamenti internazionali sono lenti, costosi e soggetti a tassi di cambio sfavorevoli.</p>
+                    </div>
+                    <!-- Problema 3: Disconnessione Culturale -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-blue-100 rounded-full">
+                            <i data-lucide="unlink-2" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Disconnessione Culturale</h3>
+                        <p class="text-slate-600">I viaggiatori desiderano esperienze autentiche, ma sono spesso disconnessi dalle economie e dalle culture locali.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: La Soluzione -->
+        <div id="slide-3" class="slide flex-col justify-center items-center p-8 bg-slate-50">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="slide-title mb-4">Un ecosistema di viaggio integrato.</h2>
+                <p class="text-xl text-slate-600 mb-12 max-w-3xl mx-auto">Mettiamo al primo posto persone e tecnologia.</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Soluzione 1 -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-purple-100 rounded-full">
+                            <i data-lucide="credit-card" class="w-8 h-8 brand-purple"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Pagamenti Flessibili</h3>
+                        <p class="text-slate-600">Abbattiamo le commissioni e i costi di transazione con supporto per pagamenti Fiat & Crypto.</p>
+                    </div>
+                    <!-- Soluzione 2 -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-purple-100 rounded-full">
+                            <i data-lucide="percent" class="w-8 h-8 brand-purple"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Commissioni Più Basse</h3>
+                        <p class="text-slate-600">La nostra infrastruttura efficiente ci permette di offrire le commissioni più competitive sul mercato.</p>
+                    </div>
+                    <!-- Soluzione 3 -->
+                    <div class="feature-card text-left">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 bg-purple-100 rounded-full">
+                            <i data-lucide="users" class="w-8 h-8 brand-purple"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Ecosistema Connesso</h3>
+                        <p class="text-slate-600">Un social network dove host, viaggiatori, creator e aziende locali possono collaborare e prosperare.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Opportunità di Mercato -->
+        <div id="slide-4" class="slide flex-col justify-center items-center p-8 bg-slate-800 text-white" style="background-image: url('https://www.transparenttextures.com/patterns/subtle-prism.png');">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12">Intercettiamo tre mercati globali in crescita esplosiva.</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="py-8 px-4 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <p class="text-5xl md:text-7xl font-bold brand-purple">$800+ MLD</p>
+                        <p class="mt-2 text-xl text-slate-300">Viaggi Online</p>
+                    </div>
+                    <div class="py-8 px-4 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <p class="text-5xl md:text-7xl font-bold brand-purple">$100+ MLD</p>
+                        <p class="mt-2 text-xl text-slate-300">Creator Economy</p>
+                    </div>
+                    <div class="py-8 px-4 bg-white/10 rounded-xl backdrop-blur-sm">
+                        <p class="text-5xl md:text-7xl font-bold brand-purple">300+ MIL</p>
+                        <p class="mt-2 text-xl text-slate-300">Adozione Crypto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Il Prodotto -->
+        <div id="slide-5" class="slide flex-col justify-center items-center p-8">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="slide-title mb-12">Una piattaforma, tre esperienze integrate.</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="feature-card">
+                        <i data-lucide="calendar-check" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Booking Intuitivo</h3>
+                        <p class="text-slate-600">Un'esperienza di prenotazione semplice, potente e senza frizioni.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i data-lucide="globe" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Pagamenti Senza Confini</h3>
+                        <p class="text-slate-600">Scegli come pagare o essere pagato, in valuta locale o criptovaluta.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i data-lucide="briefcase" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Hub di Collaborazione</h3>
+                        <p class="text-slate-600">Un marketplace per creator e aziende locali per creare partnership uniche.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Modello di Business -->
+        <div id="slide-6" class="slide flex-col justify-center items-center p-8 bg-slate-50">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="slide-title mb-12">Flussi di ricavi diversificati e a basso costo.</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="feature-card">
+                        <i data-lucide="receipt" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Commissione Prenotazioni</h3>
+                        <p class="text-slate-600">Significativamente più bassa rispetto ai concorrenti, attirando più host e viaggiatori.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i data-lucide="handshake" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Commissione Collaborazioni</h3>
+                        <p class="text-slate-600">Una piccola fee sulle transazioni di successo tra Host, Creator e aziende locali.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i data-lucide="link" class="w-12 h-12 brand-purple mb-4 mx-auto"></i>
+                        <h3 class="text-xl font-bold mb-2">Commissione Affiliazioni</h3>
+                        <p class="text-slate-600">Una percentuale sui servizi venduti tramite referral e partner del nostro ecosistema.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Go-To-Market Strategy -->
+        <div id="slide-7" class="slide flex-col justify-center items-center p-8">
+            <div class="max-w-4xl mx-auto w-full">
+                <h2 class="slide-title text-center mb-12">La nostra strategia di lancio.</h2>
+                <div class="relative border-l-4 border-purple-200">
+                    <!-- Fase 1 -->
+                    <div class="mb-12 ml-8">
+                        <div class="absolute -left-4 mt-2 w-8 h-8 bg-brand-purple rounded-full border-4 border-white"></div>
+                        <h3 class="text-sm font-bold text-purple-600 uppercase">Fase 1: Validazione (Mesi 1-6)</h3>
+                        <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1">
+                            <li>Targeting di nicchie: community crypto e nomadi digitali.</li>
+                            <li>Focus su destinazioni turistiche chiave.</li>
+                            <li>Onboarding di un gruppo selezionato di creator.</li>
+                        </ul>
+                    </div>
+                    <!-- Fase 2 -->
+                    <div class="ml-8">
+                        <div class="absolute -left-4 mt-2 w-8 h-8 bg-brand-purple rounded-full border-4 border-white"></div>
+                        <h3 class="text-sm font-bold text-purple-600 uppercase">Fase 2: Espansione (Mesi 7-18)</h3>
+                        <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1">
+                            <li>Marketing su larga scala per raggiungere un pubblico più ampio.</li>
+                            <li>Espansione geografica in nuovi mercati strategici.</li>
+                            <li>Sviluppo e lancio del programma di affiliazione.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Il Team -->
+        <div id="slide-8" class="slide flex-col justify-center items-center p-8 bg-slate-50">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="slide-title mb-12">Il nostro team.</h2>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <!-- Membro del Team 1 -->
+                    <div class="feature-card text-center">
+                        <img src="luca-corrao.jpg" alt="Foto di Luca Corrao" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-purple-200" onerror="this.onerror=null;this.src='https://placehold.co/128x128/e9d5ff/6d28d9?text=LC';">
+                        <h3 class="text-2xl font-bold">Luca Corrao</h3>
+                        <p class="text-md brand-purple font-semibold mb-2">CEO & Founder</p>
+                        <p class="text-slate-600">Guida la crescita di Nomadiqe, forgiando partnership strategiche e sbloccando nuove opportunità di mercato con una leadership visionaria.</p>
+                    </div>
+                    <!-- Membro del Team 2 -->
+                    <div class="feature-card text-center">
+                        <img src="matthew-whitney.jpg" alt="Foto di Matthew J Whitney" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-purple-200" onerror="this.onerror=null;this.src='https://placehold.co/128x128/e9d5ff/6d28d9?text=MW';">
+                        <h3 class="text-2xl font-bold">Matthew J Whitney</h3>
+                        <p class="text-md brand-purple font-semibold mb-2">CTO & Co-Founder</p>
+                        <p class="text-slate-600">Guida la visione tecnologica, combinando leadership collaborativa con una profonda esperienza in AI, blockchain e sviluppo full-stack.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: La Richiesta (The Ask) -->
+        <div id="slide-9" class="slide flex-col justify-center items-center p-8">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="slide-title text-center mb-12">La nostra richiesta.</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <p class="text-lg text-slate-600">Stiamo cercando un round</p>
+                        <p class="text-6xl md:text-8xl font-bold brand-purple my-2">Pre-Seed</p>
+                        <p class="text-5xl md:text-7xl font-bold text-slate-800">€ 225.000</p>
+                    </div>
+                    <div class="w-full max-w-sm mx-auto">
+                        <canvas id="askChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Contatti -->
+        <div id="slide-10" class="slide flex-col justify-center items-center p-8 bg-brand-purple text-white">
+            <div class="text-center">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8">Grazie.</h2>
+                <p class="text-xl mb-2">Luca Corrao & Matthew J Whitney</p>
+                <p class="text-lg text-purple-200 mb-6">CEO & CTO</p>
+                <div class="space-y-2 text-lg">
+                    <p><a href="mailto:luca@bedda.tech" class="hover:underline">luca@bedda.tech</a></p>
+                    <p><a href="mailto:matt@bedda.tech" class="hover:underline">matt@bedda.tech</a></p>
+                    <p>+39 3513671340</p>
+                    <p>+1 (480) 209-5975</p>
+                    <p><a href="https://landingpage-nomadiqe.vercel.app" target="_blank" rel="noopener noreferrer" class="font-semibold hover:underline">landingpage-nomadiqe.vercel.app</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Controlli di Navigazione -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-8 z-50">
+        <button id="prevBtn" class="nav-button">
+            <i data-lucide="arrow-left" class="w-6 h-6 text-slate-700"></i>
+        </button>
+        <div id="nav-dots" class="flex items-center justify-center gap-3"></div>
+        <button id="nextBtn" class="nav-button">
+            <i data-lucide="arrow-right" class="w-6 h-6 text-slate-700"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const navDotsContainer = document.getElementById('nav-dots');
+            let currentSlide = 0;
+            let chartInstance = null;
+
+            // Inizializza i puntini di navigazione
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('nav-dot');
+                dot.addEventListener('click', () => goToSlide(index));
+                navDotsContainer.appendChild(dot);
+            });
+            const navDots = document.querySelectorAll('.nav-dot');
+
+            function goToSlide(slideNumber) {
+                // Nasconde la slide corrente
+                slides[currentSlide].classList.remove('active');
+                navDots[currentSlide].classList.remove('active');
+
+                // Imposta la nuova slide
+                currentSlide = slideNumber;
+
+                // Mostra la nuova slide
+                slides[currentSlide].classList.add('active');
+                navDots[currentSlide].classList.add('active');
+
+                // Aggiorna lo stato dei pulsanti
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+
+                // Se la slide è quella del grafico, crealo (o aggiornalo)
+                if (slides[currentSlide].id === 'slide-9') {
+                    createAskChart();
+                }
+            }
+
+            function createAskChart() {
+                const ctx = document.getElementById('askChart');
+                if (!ctx) return;
+                
+                // Distrugge il grafico precedente se esiste per evitare duplicazioni
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+
+                chartInstance = new Chart(ctx.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Sviluppo Prodotto', 'Marketing & Go-To-Market', 'Operazioni'],
+                        datasets: [{
+                            label: 'Suddivisione Fondi',
+                            data: [60, 25, 15],
+                            backgroundColor: [
+                                'rgba(109, 40, 217, 0.8)', // Viola
+                                'rgba(129, 140, 248, 0.8)', // Viola chiaro
+                                'rgba(196, 181, 253, 0.8)'  // Viola chiarissimo
+                            ],
+                            borderColor: [
+                                'rgba(109, 40, 217, 1)',
+                                'rgba(129, 140, 248, 1)',
+                                'rgba(196, 181, 253, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        family: "'Poppins', sans-serif",
+                                        size: 14
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            label += context.parsed + '%';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Event listener per i pulsanti
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            });
+            
+            // Inizializza la prima slide
+            goToSlide(0);
+
+            // Inizializza le icone Lucide
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html> 
